@@ -7,14 +7,10 @@ import csv
 
 
 #################################
-# 画面上の座標を指定してクリック
-def click_at_position(position):
-    x, y = position
-    pyautogui.click(x, y)
-    print(f"Clicked at position: ({x}, {y})")
+
     
 
-
+# クリックする関数(ただし，心拍系だけダブルクリックじゃないと動かない)
 def click2(position,position1,position2):
     x, y = position
     x1,y1 = position1
