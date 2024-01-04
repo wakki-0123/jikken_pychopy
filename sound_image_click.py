@@ -11,11 +11,6 @@ import csv
 from threading import Thread
 import pyglet
 
-# クリックしたい座標の座標(使用しないかも)
-# def click_at_position(position):
-#     x, y = position
-#     pyautogui.click(x, y)
-#     print(f"Clicked at position: ({x}, {y})")
 
 # クリックする関数(ただし，心拍系だけダブルクリックじゃないと動かない)
 def click2(position, position1, position2):
@@ -28,15 +23,15 @@ def click2(position, position1, position2):
     time.sleep(0.001)  # delayは0.001秒
     pyautogui.doubleClick(x2, y2)
 
-# 音声ファイルの読み込み
+# 音声ファイルの検索
 def sound_load():
     # 音声ファイルのパスを指定
     cwd = os.getcwd()  # 現在の作業ディレクトリ
-    sound_list = glob.glob(cwd + "/voice/*.wav")
+    sound_list = glob.glob(cwd + "/voice/*.wav") # ファイルのパスを取得
     return sound_list
 
 
-# 音声ファイルの検索
+# 音声ファイルの読み込み
 def sound_search(sound_list):
     sound_Data = {}
     for i in sound_list:
@@ -70,7 +65,7 @@ def sound_play(sound_Data, time3):
 
 def write_to_csv(time_value):
     # ファイルは新規作成したものを入れよう(そのまま上書きされるので)
-    with open('time_log_voice.csv', 'a', newline='', encoding='utf-8') as csvfile:
+    with open('time_log_voice.csv', 'a', newline='', encoding='utf-8') as csvfile: # time_log_voice.csvは任意に変えてよい　ただし，拡張子は.csvにすること
         fieldnames = ['Timestamp']
 
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -88,9 +83,7 @@ if __name__ == "__main__":
     click_positions1 = [(1259, 64)]  # 脳波計
     click_positions2 = [(88, 90)]  # 心拍計
 
-    # win = visual.Window(size=(1000, 600), pos=(203, 188), screen=0)  # size 大きさ pos 座標
-    # imageLists = psychopy00()
-    # imageData = psychopy0(imageLists)
+   
     sound_list = sound_load()
 
     # 使用したいサウンドデバイスを選択
@@ -108,7 +101,7 @@ if __name__ == "__main__":
     #     'DefaultSampleRate': 44100.0,
     #     'id': 1
     # }
-    #1225
+    #　使用したいサウンドデバイスを指定
     selected_device = {'DeviceIndex': 6.0,
                         'HostAudioAPIId': 13.0, 
                         'HostAudioAPIName': 'Windows WASAPI', 
@@ -122,23 +115,23 @@ if __name__ == "__main__":
                                 'DefaultSampleRate': 48000.0, 
                                 'id': 1}
     sound_Data = sound_search(sound_list)
-    click2(click_positions[0],click_positions1[0],click_positions2[0])
+    click2(click_positions[0],click_positions1[0],click_positions2[0]) # 実際にクリックする 
 
-    i = 0
-    
+    i = 0 # 経過時間のカウントのための変数
+    # 経過時間の表示と音声の再生
     while True:
         i += 1
-        if i == 1:
+        if i == 1:#最初のループのみ time1に現在時刻を代入
             time1 = time.perf_counter()
-        else:
+        else: #2回目以降はtime1は固定する
             time1 = time1
 
-        time.sleep(1)
+        time.sleep(1) #1秒待つ
         time2 = time.perf_counter()
-        print("経過時間:", time2 - time1)
-        time3 = time2 - time1
+        print("経過時間:", time2 - time1) # 経過時間を表示
+        time3 = time2 - time1 # 経過時間をtime3に代入
 
-        if int(time3) == 3:
+        if int(time3) == 3: # 3秒経過したら音を鳴らすようにする
             sound_thread = Thread(target=sound_play, args=(sound_Data,time3))
             
 
