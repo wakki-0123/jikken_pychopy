@@ -5,18 +5,7 @@ import os
 import glob
 import csv
 
-# 画面上の座標を指定してクリック
-# def click_at_position(position):
-#     x, y = position
-#     pyautogui.click(x, y)
-#     print(f"Clicked at position: ({x}, {y})")
 
-# def click2(position, position1):
-#     x, y = position
-#     x1, y1 = position1
-#     pyautogui.click(x, y)
-#     time.sleep(0.001)
-#     pyautogui.click(x1, y1)
 #################################
 # 画面上の座標を指定してクリック
 def click_at_position(position):
@@ -103,11 +92,9 @@ if __name__ == "__main__":
     imageLists = psychopy00()
     imageData = psychopy0(imageLists)
 
-    # 画面上の複数の位置でクリックを実行
-    #click2(click_positions[0], click_positions1[0])
-
+    
     # 画面上の複数の位置でクリックを実行(こっち)
-    #click2(click_positions[0],click_positions1[0],click_positions2[0])
+    click2(click_positions[0],click_positions1[0],click_positions2[0])
     i = 0
     while True:
         i += 1
@@ -120,5 +107,5 @@ if __name__ == "__main__":
         time2 = time.perf_counter()
         print("経過時間:", time2 - time1)
         time3 = time2 - time1
-        if int(time3) == 10:
+        if int(time3) == 5:
             psychopy(imageLists, imageData, time3)
