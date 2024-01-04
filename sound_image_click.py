@@ -10,16 +10,19 @@ import glob
 import csv
 from threading import Thread
 import pyglet
-def click_at_position(position):
-    x, y = position
-    pyautogui.click(x, y)
-    print(f"Clicked at position: ({x}, {y})")
 
+# クリックしたい座標の座標(使用しないかも)
+# def click_at_position(position):
+#     x, y = position
+#     pyautogui.click(x, y)
+#     print(f"Clicked at position: ({x}, {y})")
+
+# クリックする関数(ただし，心拍系だけダブルクリックじゃないと動かない)
 def click2(position, position1, position2):
-    x, y = position
-    x1, y1 = position1
-    x2, y2 = position2
-    pyautogui.click(x, y)
+    x, y = position # アイトラッカーの座標
+    x1, y1 = position1 # 脳波計
+    x2, y2 = position2 # 心拍計
+    pyautogui.click(x, y) # アイトラッカー
     time.sleep(0.001)  # delayは0.001秒
     pyautogui.click(x1, y1)
     time.sleep(0.001)  # delayは0.001秒
@@ -119,6 +122,7 @@ if __name__ == "__main__":
                                 'DefaultSampleRate': 48000.0, 
                                 'id': 1}
     sound_Data = sound_search(sound_list)
+    click2(click_positions[0],click_positions1[0],click_positions2[0])
 
     i = 0
     
