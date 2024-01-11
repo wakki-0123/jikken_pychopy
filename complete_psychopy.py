@@ -26,7 +26,7 @@ def click2(position,position1,position2):
 # 画像検索関数
 def psychopy00():
     cwd = os.getcwd()  # 現在の作業ディレクトリ
-    imageLists = glob.glob(cwd + "/image/*.jpg")
+    imageLists = glob.glob(cwd + "/image/*.jpg") # 任意のファイルがあるディレクトリ
     return imageLists
 
 # 画像読み込み関数
