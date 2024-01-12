@@ -27,7 +27,7 @@ def click2(position, position1, position2):
 def sound_load():
     # 音声ファイルのパスを指定
     cwd = os.getcwd()  # 現在の作業ディレクトリ
-    sound_list = glob.glob(cwd + "/voice/*.wav") # ファイルのパスを取得
+    sound_list = glob.glob(cwd + "/IADS-E sound stimuli (IADS-2 is not included)/Nature/*.wav") # ファイルのパスを取得
     return sound_list
 
 
@@ -85,6 +85,8 @@ if __name__ == "__main__":
 
    
     sound_list = sound_load()
+
+    # 以下，各デバイスによって，変更する(sound_device.pyを参照)
 
     # 使用したいサウンドデバイスを選択
     # selected_device = {
