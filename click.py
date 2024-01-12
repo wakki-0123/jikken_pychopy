@@ -1,14 +1,7 @@
 import pyautogui
 import time
 
-# 画面上の座標を指定してクリック
-def click_at_position(position):
-    x, y = position
-    pyautogui.click(x, y)
-    print(f"Clicked at position: ({x}, {y})")
-    
-
-
+# 画面上の座標を指定してクリックを実行
 def click2(position,position1,position2):
     x, y = position
     x1,y1 = position1
@@ -21,7 +14,7 @@ def click2(position,position1,position2):
     
 
 
-    #2つ目の座標をクリックしてからの時間経過を表示する
+    #3つ目の座標をクリックしてからの時間経過を表示する
     i=0
     while(1):
      i+=1
