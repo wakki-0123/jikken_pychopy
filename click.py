@@ -34,7 +34,8 @@ if __name__ == "__main__":
     
     # クリックしたい座標
     
-    click_positions = [(646,586)] #アイトラッカー
+    #click_positions = [(646,586)] #アイトラッカー
+    click_positions = [(-276,84)] #アイトラッカー
     click_positions1 = [(1259,64)] # 脳波計
     click_positions2 = [(88,90)] # 心拍計
 

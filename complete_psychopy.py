@@ -5,6 +5,8 @@ import os
 import glob
 import csv
 
+
+# 2台のモニターを使えるようになった
 #################################
 # クリックする関数(ただし，心拍系だけダブルクリックじゃないと動かない)
 def click2(position,position1,position2):
@@ -73,6 +75,7 @@ def write_to_csv(time_value):
 if __name__ == "__main__":
     # クリックしたい座標
     click_positions = [(657,585)] #アイトラッカー
+    
     click_positions1 = [(1259,64)] # 脳波計
     click_positions2 = [(88,90)] # 心拍計
 
@@ -81,7 +84,7 @@ if __name__ == "__main__":
     click2(click_positions[0],click_positions1[0],click_positions2[0])
     time0 =  time.perf_counter()     
     # 画像の表示のための準備
-    win = visual.Window(size=(1919,1076), pos=(0,0), screen=1) # size 大きさ pos 座標
+    win = visual.Window(size=(1919,1076), pos=(0,0), screen=1) # size 大きさ pos 座標 ここのスクリーンの指定はきちんと確かめよう( 0 OR 1 OR 2 )
     imageLists = psychopy00()
     imageData = psychopy0(imageLists)
     i = 0
