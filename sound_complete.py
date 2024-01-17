@@ -1,4 +1,3 @@
-
 import pyautogui
 import time
 from psychopy import visual, core, sound
@@ -7,6 +6,7 @@ import glob
 import csv
 from threading import Thread
 import pyglet
+import keyboard
 
 
 #######################################################################################################
@@ -15,6 +15,7 @@ import pyglet
 # 被験者の目の前のモニターには、グレースケール画像を表示させる(本プログラムにおいて指定する)
 # 実験者の目の前のモニターには、実際にクリックできるよう脳波計、アイトラッカー、心拍計の画面を表示させておく(ドラック操作で移動させておくこと)
 # また、音刺激を開始した時刻をcsvファイルに記録するようにしている
+# csvのファイル書き込みを終えるときは、キーボードのcを長押しする。また、コマンドライン上にEnd_Play_Soundと表示されたら音声刺激の再生が終了したことを示す。
 
 #######################################################################################################
 
@@ -41,51 +42,62 @@ def sound_load():
 # 音声ファイルの読み込み
 def sound_search(sound_list):
     sound_Data = {}
-    for i in sound_list:
-        sound_obj = pyglet.media.load(i)
-        sound_Data[i] = sound_obj
-    return sound_Data
+    filenames = []  # ファイル名を格納するリストを初期化
+    for file_path in sound_list:
+        sound_obj = pyglet.media.load(file_path)
+        # ファイル名を取得し、辞書に追加
+        filename = os.path.basename(file_path)
+        sound_Data[filename] = sound_obj
+    return sound_Data,filenames
 
-# 音声ファイルの再生
-def sound_play(sound_Data, time3):
 
-    print('音声再生開始タイミング:', time3)
+    
+
+# sound_play関数の修正
+def sound_play(sound_Data, time3, filenames):
+    print('音声再生開始時刻:', time3)
     time4 = time.perf_counter()
-    write_to_csv(time3)
+    write_to_csv(time3, "Start")  # 開始時刻をCSVに書き込み
+    
 
-    for i in sound_Data.values():
-        player = i.play()
+    for filenames, sound_obj in sound_Data.items():
+        player = sound_obj.play()
         player.eos_action = pyglet.media.Player
         core.wait(6)
         player.pause()
+
         
-        print('音声再生終了タイミング:', time3)
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
-        print('音声再生終了タイミング:', i)  # 音の再生が終わった時間
+        print('音声再生終了時刻:', time6)
+        print('音声再生終了ファイル:', filenames)  # 音声が終わったファイル名
         print(time6)
-        write_to_csv(time6)
+        write_to_csv(time6, filenames)  # 終了時刻とファイル名をCSVに書き込み
+        
+        # Check if 'c' key is pressed to break the loop
+        if keyboard.is_pressed('c'):
+                print("End_Play_Sound")
+                break
+        
+        #write_to_csv(time6, filename)  # 終了時刻とファイル名をCSVに書き込み
+    
 
 
 
-
-
-
-def write_to_csv(time_value):
-    # ファイルは新規作成したものを入れよう(そのまま上書きされるので)
-    with open('time_log_voice.csv', 'a', newline='', encoding='utf-8') as csvfile: # time_log_voice.csvは任意に変えてよい　ただし，拡張子は.csvにすること
-        fieldnames = ['Timestamp']
+# write_to_csv関数の修正
+def write_to_csv(time_value, filenames):
+    with open('time_log_voice.csv', 'a', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['Timestamp', 'Name']  # 'Name'をfieldnamesに追加
 
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        # ファイルが空ならヘッダーを書き込む
         if csvfile.tell() == 0:
             writer.writeheader()
 
-        writer.writerow({'Timestamp': time_value})
-# ...（前略）
+        writer.writerow({'Timestamp': time_value, 'Name': filenames})
 
 if __name__ == "__main__":
+
     # クリックしたい座標
     click_positions = [(657, 585)]  # アイトラッカー
     click_positions1 = [(1259, 64)]  # 脳波計
@@ -124,7 +136,7 @@ if __name__ == "__main__":
                               'HighOutputLatency': 0.0106667,
                                 'DefaultSampleRate': 48000.0, 
                                 'id': 1}
-    sound_Data = sound_search(sound_list)
+    sound_Data,filenames = sound_search(sound_list)
     click2(click_positions[0],click_positions1[0],click_positions2[0]) # 実際にクリックする 
 
     i = 0 # 経過時間のカウントのための変数
@@ -142,11 +154,14 @@ if __name__ == "__main__":
         time3 = time2 - time1 # 経過時間をtime3に代入
 
         if int(time3) == 3: # 3秒経過したら音を鳴らすようにする
-            sound_thread = Thread(target=sound_play, args=(sound_Data,time3))
+            sound_thread = Thread(target=sound_play, args=(sound_Data,time3,filenames))
             
 
             sound_thread.start()
             
 
-            sound_thread.join()
+            #sound_thread.join()
+        
             
+   
+    
