@@ -1,7 +1,4 @@
 
-
-#################################################
-
 import pyautogui
 import time
 from psychopy import visual, core, sound
@@ -51,6 +48,7 @@ def sound_play(sound_Data, time3):
         player.eos_action = pyglet.media.Player
         core.wait(6)
         player.pause()
+        
         print('音声再生終了タイミング:', time3)
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
