@@ -79,6 +79,7 @@ if __name__ == "__main__":
 
     # 画面上の複数の位置でクリックを実行
     click2(click_positions[0],click_positions1[0],click_positions2[0])
+    time0 =  time.perf_counter()     
     # 画像の表示のための準備
     win = visual.Window(size=(1919,1076), pos=(0,0), screen=1) # size 大きさ pos 座標
     imageLists = psychopy00()
@@ -87,7 +88,7 @@ if __name__ == "__main__":
     while True:
         i += 1
         if i == 1:
-            time1 = time.perf_counter() # 1回目のループのときに時間を取得
+            time1 = time0
         else:
             time1 = time1
 
