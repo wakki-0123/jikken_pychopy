@@ -100,7 +100,7 @@ def psychopy(imageLists, imageData, time3,imageData2,j):
        
         imageData[i].draw()
         win.flip()
-        core.wait(3) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
+        core.wait(10) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
         print('画像提示終了時刻その',j)  # 画像が終わった時間
@@ -122,7 +122,7 @@ def psychopy(imageLists, imageData, time3,imageData2,j):
     return a,time6,j
 
 def psychopy1(imageLists, imageData, time3):
-    print('画像提示開始時刻:',time3)
+    print('グレースケール画像提示開始時刻:',time3)
     time4 = time.perf_counter()
     write_to_csv(time3)
     k = 0
@@ -132,7 +132,7 @@ def psychopy1(imageLists, imageData, time3):
        
         imageData[i].draw()
         win.flip()
-        core.wait(10) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
+        core.wait(120) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
         print('長いインターバル')  # 画像が終わった時間
@@ -204,6 +204,10 @@ if __name__ == "__main__":
 
         if b == 2: 
             [c,time8,k] = psychopy(imageLists1, imageData1,time7,imageData2,j)
+            a = 2
+        
+        if a == 2:
+            [b,time9] = psychopy1(imageLists2, imageData2, time8)
         a = 0
         b = 0
         
