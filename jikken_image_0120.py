@@ -50,36 +50,39 @@ def click2(position,position1,position2):
     
 
 
-# 画像検索関数
+# 画像検索関数1
 def psychopy00():
     cwd = os.getcwd()  # 現在の作業ディレクトリ
     imageLists = glob.glob(cwd + "/jikken_0120_3/*.jpg") # 任意のファイルがあるディレクトリ
     return imageLists
 
+# 画像検索関数2
 def psychopy11():
     cwd = os.getcwd()  # 現在の作業ディレクトリ
     imageLists = glob.glob(cwd + "/jikken_0120_4/*.jpg") # 任意のファイルがあるディレクトリ
     return imageLists
 
+# グレースケール画像検索関数
 def psychopy22():
     cwd = os.getcwd()  # 現在の作業ディレクトリ
     imageLists = glob.glob(cwd + "/OIP.jpg") # 任意のファイルがあるディレクトリ
     return imageLists
 
-# 画像読み込み関数
+# 画像読み込み関数1
 def psychopy0(imageLists):
     imageData = {}
     for i in imageLists:
         imageData[i] = visual.ImageStim(win, image=i)
     return imageData
 
+# 画像読み込み関数2
 def psychopy01(imageLists):
     imageData = {}
     for i in imageLists:
         imageData[i] = visual.ImageStim(win, image=i)
     return imageData
 
-
+# グレースケール画像読み込み関数
 def psychopy2(imageLists):
     imageData = {}
     for i in imageLists:
@@ -92,15 +95,12 @@ def psychopy(imageLists, imageData, time3,imageData2,j):
     time4 = time.perf_counter()
     write_to_csv(time3)
     
-    
-
-
     for i in imageLists:
         j = j + 1
        
         imageData[i].draw()
         win.flip()
-        core.wait(3) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
+        core.wait(10) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
         print('画像提示終了時刻その',j)  # 画像が終わった時間
@@ -121,6 +121,7 @@ def psychopy(imageLists, imageData, time3,imageData2,j):
     a = 1
     return a,time6,j
 
+# グレースケール画像表示関数
 def psychopy1(imageLists, imageData, time3):
     print('画像提示開始時刻:',time3)
     time4 = time.perf_counter()
@@ -132,7 +133,7 @@ def psychopy1(imageLists, imageData, time3):
        
         imageData[i].draw()
         win.flip()
-        core.wait(10) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
+        core.wait(120) # 画像の表示時間　(この書き方だと，基本的に画像は120秒間表示される)
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
         print('長いインターバル')  # 画像が終わった時間
@@ -141,6 +142,7 @@ def psychopy1(imageLists, imageData, time3):
     a = 2
     return a,time6
 
+# csvファイルに記録する関数
 def write_to_csv(time_value):
     # ファイルは新規作成したものを入れよう(そのまま上書きされるので)  EX) time_log1.csv
     with open('time_log1.csv', 'a', newline='', encoding='utf-8') as csvfile:
@@ -196,13 +198,13 @@ if __name__ == "__main__":
         time2 = time.perf_counter() # 1秒ごとに時間を取得
         print("経過時間:", time2 - time1) # 1秒ごとに経過時間を表示
         time3 = time2 - time1
-        if int(time3) == 10: # クリックしてから30秒後に画像提示をするようになっている
+        if int(time3) == 10: # クリックしてから10秒後に画像提示をするようになっている
             [a,time6,j] = psychopy(imageLists, imageData, time3,imageData2,0)
 
-        if a == 1:
+        if a == 1: # 画像提示が終わったら，次の画像提示までのインターバルを表示する
             [b,time7] = psychopy1(imageLists2, imageData2, time6)
 
-        if b == 2: 
+        if b == 2: # インターバルが終わったら，次の画像提示をする
             [c,time8,k] = psychopy(imageLists1, imageData1,time7,imageData2,j)
         a = 0
         b = 0
