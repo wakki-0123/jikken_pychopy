@@ -123,7 +123,7 @@ def psychopy(imageLists, imageData, time3,imageData2,j):
 
 # グレースケール画像表示関数
 def psychopy1(imageLists, imageData, time3):
-    print('画像提示開始時刻:',time3)
+    print('グレースケール画像提示開始時刻:',time3)
     time4 = time.perf_counter()
     write_to_csv(time3)
     k = 0
@@ -133,7 +133,11 @@ def psychopy1(imageLists, imageData, time3):
        
         imageData[i].draw()
         win.flip()
+<<<<<<< HEAD
         core.wait(120) # 画像の表示時間　(この書き方だと，基本的に画像は120秒間表示される)
+=======
+        core.wait(120) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
+>>>>>>> a47bbdf0bb313fb2c3428a9499934dca9a2a78c7
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
         print('長いインターバル')  # 画像が終わった時間
@@ -206,6 +210,10 @@ if __name__ == "__main__":
 
         if b == 2: # インターバルが終わったら，次の画像提示をする
             [c,time8,k] = psychopy(imageLists1, imageData1,time7,imageData2,j)
+            a = 2
+        
+        if a == 2:
+            [b,time9] = psychopy1(imageLists2, imageData2, time8)
         a = 0
         b = 0
         
