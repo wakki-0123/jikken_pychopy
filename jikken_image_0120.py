@@ -133,11 +133,7 @@ def psychopy1(imageLists, imageData, time3):
        
         imageData[i].draw()
         win.flip()
-<<<<<<< HEAD
         core.wait(120) # 画像の表示時間　(この書き方だと，基本的に画像は120秒間表示される)
-=======
-        core.wait(120) # 画像の表示時間　(この書き方だと，基本的にすべての画像は10秒間表示される)
->>>>>>> a47bbdf0bb313fb2c3428a9499934dca9a2a78c7
         time5 = time.perf_counter()
         time6 = (time5 - time4) + time3
         print('長いインターバル')  # 画像が終わった時間
