@@ -14,8 +14,12 @@ import keyboard
 # パソコンのモニターには、vscodeを表示させておく
 # 被験者の目の前のモニターには、グレースケール画像を表示させる(本プログラムにおいて指定する)
 # 実験者の目の前のモニターには、実際にクリックできるよう脳波計、アイトラッカー、心拍計の画面を表示させておく(ドラック操作で移動させておくこと)
-# また、音刺激を開始した時刻をcsvファイルに記録するようにしている
-# csvのファイル書き込みを終えるときは、キーボードのcを長押しする。また、コマンドライン上にEnd_Play_Soundと表示されたら音声刺激の再生が終了したことを示す。
+# また、音刺激を開始した時刻とファイル名をcsvファイルに記録するようにしている
+# csvファイルに関しては，time_log_voice.csvというファイル名で作成される。また，ファイル名は任意に変更してよい。ただし，拡張子は.csvにすること
+# csvファイルは記録したら逐次，保存 OR 削除すること．そうしないと元のcsvファイルに新たに書き込みされてしまう
+# csvのファイル書き込みと音声の再生を終えるときは、キーボードのcを長押しする。また、コマンドライン上にEnd_Play_Soundと表示されたら音声刺激の再生が終了したことを示す。
+# プログラムの終了は，コントロールキーとcを同時に押す
+
 
 #######################################################################################################
 
@@ -25,7 +29,7 @@ def click2(position, position1, position2):
     x, y = position # アイトラッカーの座標
     x1, y1 = position1 # 脳波計
     x2, y2 = position2 # 心拍計
-    pyautogui.click(x, y) # アイトラッカー
+    pyautogui.click(x, y) 
     time.sleep(0.001)  # delayは0.001秒
     pyautogui.click(x1, y1)
     time.sleep(0.001)  # delayは0.001秒
@@ -35,7 +39,7 @@ def click2(position, position1, position2):
 def sound_load():
     # 音声ファイルのパスを指定
     cwd = os.getcwd()  # 現在の作業ディレクトリ
-    sound_list = glob.glob(cwd + "/IADS-E sound stimuli (IADS-2 is not included)/Nature/*.wav") # ファイルのパスを取得
+    sound_list = glob.glob(cwd + "/IADS-E sound stimuli (IADS-2 is not included)/Nature/*.wav") # 音声ファイルのパスを指定
     return sound_list
 
 
@@ -53,7 +57,7 @@ def sound_search(sound_list):
 
     
 
-# sound_play関数の修正
+# 音声ファイルの再生
 def sound_play(sound_Data, time3, filenames):
     silent = "silent"
     print('音声再生開始時刻:', time3)
@@ -67,7 +71,7 @@ def sound_play(sound_Data, time3, filenames):
         if j == 0:
           player = sound_obj.play()
           player.eos_action = pyglet.media.Player
-          core.wait(6)
+          core.wait(6) # これがないと音声が再生されない
           player.pause()
           time5 = time.perf_counter()
           time6 = (time5 - time4) + time3
@@ -77,21 +81,22 @@ def sound_play(sound_Data, time3, filenames):
           write_to_csv(time6, filenames)  # 終了時刻とファイル名をCSVに書き込み
           
         else:
-          # 無音生の再生
+          # 無音声の再生
          
-          core.wait(10)
+          core.wait(10) # 無音の再生(待機するだけ)
           time8 = time.perf_counter()
           
           time9 = (time8 - time4) + time3
           print('無音生終了時刻:', time9)
-          print('無音生のファイル:', silent)  # 音声が終わったファイル名
+          print('無音生の文字列:', silent)  # 無音声を表す文字列を表示
           print(time9)
-          write_to_csv(time9, silent)  # 終了時刻とファイル名をCSVに書き込み
+          write_to_csv(time9, silent)  # 終了時刻と無音声を表す文字列をCSVに書き込み
           ###############################################################
+
           # ここから音声の再生
           player = sound_obj.play()
           player.eos_action = pyglet.media.Player
-          core.wait(6)
+          core.wait(6) # これがないと音声が再生されない
           player.pause()
           time5 = time.perf_counter()
           time6 = (time5 - time4) + time3
@@ -107,8 +112,8 @@ def sound_play(sound_Data, time3, filenames):
         # write_to_csv(time6, filenames)  # 終了時刻とファイル名をCSVに書き込み
         j += 1
         
-        # Check if 'c' key is pressed to break the loop
-        if keyboard.is_pressed('c'):
+        # Check if 'c' key is pressed to break the loop (音声再生の強制終了)
+        if keyboard.is_pressed('c'): # 音声の再生が終わったタイミングでキーボードのcを長押しすると音声再生が強制終了する
                 print("End_Play_Sound")
                 break
         
@@ -117,9 +122,9 @@ def sound_play(sound_Data, time3, filenames):
 
 
 
-# write_to_csv関数の修正
+# CSVファイルに書き込み
 def write_to_csv(time_value, filenames):
-    with open('time_log_voice.csv', 'a', newline='', encoding='utf-8') as csvfile:
+    with open('time_log_voice.csv', 'a', newline='', encoding='utf-8') as csvfile: # time_log_voice.csvは任意に変えてよい　ただし，拡張子は.csvにすること
         fieldnames = ['Timestamp', 'Name']  # 'Name'をfieldnamesに追加
 
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -128,6 +133,9 @@ def write_to_csv(time_value, filenames):
             writer.writeheader()
 
         writer.writerow({'Timestamp': time_value, 'Name': filenames})
+
+#############################################################################################
+# ここからメインプログラム
 
 if __name__ == "__main__":
 
@@ -192,9 +200,6 @@ if __name__ == "__main__":
 
             sound_thread.start()
             
-
-            #sound_thread.join()
-        
             
    
     
