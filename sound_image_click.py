@@ -65,6 +65,7 @@ def sound_play(sound_Data, time3):
         print('音声再生終了タイミング:', i)  # 音の再生が終わった時間
         print(time6)
         write_to_csv(time6)
+        #core.wait(10)
 
 
 

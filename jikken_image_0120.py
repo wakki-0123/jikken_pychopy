@@ -198,7 +198,7 @@ if __name__ == "__main__":
         time2 = time.perf_counter() # 1秒ごとに時間を取得
         print("経過時間:", time2 - time1) # 1秒ごとに経過時間を表示
         time3 = time2 - time1
-        if int(time3) == 10: # クリックしてから10秒後に画像提示をするようになっている
+        if int(time3) == 30: # クリックしてから10秒後に画像提示をするようになっている
             [a,time6,j] = psychopy(imageLists, imageData, time3,imageData2,0)
 
         if a == 1: # 画像提示が終わったら，次の画像提示までのインターバルを表示する

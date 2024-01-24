@@ -55,24 +55,57 @@ def sound_search(sound_list):
 
 # sound_play関数の修正
 def sound_play(sound_Data, time3, filenames):
+    silent = "silent"
     print('音声再生開始時刻:', time3)
     time4 = time.perf_counter()
     write_to_csv(time3, "Start")  # 開始時刻をCSVに書き込み
+    j = 0
     
 
     for filenames, sound_obj in sound_Data.items():
-        player = sound_obj.play()
-        player.eos_action = pyglet.media.Player
-        core.wait(6)
-        player.pause()
+        # ここから音声の再生
+        if j == 0:
+          player = sound_obj.play()
+          player.eos_action = pyglet.media.Player
+          core.wait(6)
+          player.pause()
+          time5 = time.perf_counter()
+          time6 = (time5 - time4) + time3
+          print('音声再生終了時刻:', time6)
+          print('音声再生終了ファイル:', filenames)  # 音声が終わったファイル名
+          print(time6)
+          write_to_csv(time6, filenames)  # 終了時刻とファイル名をCSVに書き込み
+          
+        else:
+          # 無音生の再生
+         
+          core.wait(10)
+          time8 = time.perf_counter()
+          
+          time9 = (time8 - time4) + time3
+          print('無音生終了時刻:', time9)
+          print('無音生のファイル:', silent)  # 音声が終わったファイル名
+          print(time9)
+          write_to_csv(time9, silent)  # 終了時刻とファイル名をCSVに書き込み
+          ###############################################################
+          # ここから音声の再生
+          player = sound_obj.play()
+          player.eos_action = pyglet.media.Player
+          core.wait(6)
+          player.pause()
+          time5 = time.perf_counter()
+          time6 = (time5 - time4) + time3
+          print('音声再生終了時刻:', time6)
+          print('音声再生終了ファイル:', filenames)  # 音声が終わったファイル名
+          print(time6)
+          write_to_csv(time6, filenames)  # 終了時刻とファイル名をCSVに書き込み
 
-        
-        time5 = time.perf_counter()
-        time6 = (time5 - time4) + time3
-        print('音声再生終了時刻:', time6)
-        print('音声再生終了ファイル:', filenames)  # 音声が終わったファイル名
-        print(time6)
-        write_to_csv(time6, filenames)  # 終了時刻とファイル名をCSVに書き込み
+        # time6 = (time5 - time4) + time3
+        # print('音声再生終了時刻:', time6)
+        # print('音声再生終了ファイル:', filenames)  # 音声が終わったファイル名
+        # print(time6)
+        # write_to_csv(time6, filenames)  # 終了時刻とファイル名をCSVに書き込み
+        j += 1
         
         # Check if 'c' key is pressed to break the loop
         if keyboard.is_pressed('c'):
