@@ -33,7 +33,6 @@ import csv
 
 # if int(time3) == 20: # クリックしてから20秒後に画像提示をするようになっている
 
-# 以上に挙げた箇所以外の部分は変更しないでください(デバックが大変になります...)
 
 #######################################################################################################
 
@@ -65,7 +64,7 @@ def psychopy11():
 # グレースケール画像検索関数
 def psychopy22():
     cwd = os.getcwd()  # 現在の作業ディレクトリ
-    imageLists = glob.glob(cwd + "/OIP.jpg") # 任意のファイルがあるディレクトリ
+    imageLists = glob.glob(cwd + "/mean_luminosity_image1.jpg") # 任意のファイルがあるディレクトリ
     return imageLists
 
 # 画像読み込み関数1
@@ -198,14 +197,14 @@ if __name__ == "__main__":
         time2 = time.perf_counter() # 1秒ごとに時間を取得
         print("経過時間:", time2 - time1) # 1秒ごとに経過時間を表示
         time3 = time2 - time1
-        if int(time3) == 30: # クリックしてから10秒後に画像提示をするようになっている
-            [a,time6,j] = psychopy(imageLists, imageData, time3,imageData2,0)
+        if int(time3) == 15: # クリックしてから15秒後に画像提示をするようになっている
+            [a,time6,j] = psychopy(imageLists1, imageData1, time3,imageData2,0)
 
         if a == 1: # 画像提示が終わったら，次の画像提示までのインターバルを表示する
             [b,time7] = psychopy1(imageLists2, imageData2, time6)
 
         if b == 2: # インターバルが終わったら，次の画像提示をする
-            [c,time8,k] = psychopy(imageLists1, imageData1,time7,imageData2,j)
+            [c,time8,k] = psychopy(imageLists, imageData,time7,imageData2,j)
             a = 2
         
         if a == 2:
