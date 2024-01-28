@@ -52,13 +52,13 @@ def click2(position,position1,position2):
 # 画像検索関数1
 def psychopy00():
     cwd = os.getcwd()  # 現在の作業ディレクトリ
-    imageLists = glob.glob(cwd + "/jikken_0120_3/*.jpg") # 任意のファイルがあるディレクトリ
+    imageLists = glob.glob(cwd + "/jikken_0128_1_kido/*.jpg") # 任意のファイルがあるディレクトリ
     return imageLists
 
 # 画像検索関数2
 def psychopy11():
     cwd = os.getcwd()  # 現在の作業ディレクトリ
-    imageLists = glob.glob(cwd + "/jikken_0120_4/*.jpg") # 任意のファイルがあるディレクトリ
+    imageLists = glob.glob(cwd + "/jikken_0128_2_mono/*.jpg") # 任意のファイルがあるディレクトリ
     return imageLists
 
 # グレースケール画像検索関数
@@ -74,19 +74,19 @@ def psychopy0(imageLists):
         imageData[i] = visual.ImageStim(win, image=i)
     return imageData
 
-# 画像読み込み関数2
-def psychopy01(imageLists):
-    imageData = {}
-    for i in imageLists:
-        imageData[i] = visual.ImageStim(win, image=i)
-    return imageData
+# # 画像読み込み関数2
+# def psychopy01(imageLists):
+#     imageData = {}
+#     for i in imageLists:
+#         imageData[i] = visual.ImageStim(win, image=i)
+#     return imageData
 
-# グレースケール画像読み込み関数
-def psychopy2(imageLists):
-    imageData = {}
-    for i in imageLists:
-        imageData[i] = visual.ImageStim(win, image=i)
-    return imageData
+# # グレースケール画像読み込み関数
+# def psychopy2(imageLists):
+#     imageData = {}
+#     for i in imageLists:
+#         imageData[i] = visual.ImageStim(win, image=i)
+#     return imageData
 
 # 画像表示関数
 def psychopy(imageLists, imageData, time3,imageData2,j):
@@ -178,8 +178,8 @@ if __name__ == "__main__":
     imageLists1 = psychopy11()
     imageLists2 = psychopy22()
     imageData = psychopy0(imageLists)
-    imageData1 = psychopy01(imageLists1)
-    imageData2 = psychopy2(imageLists2)
+    imageData1 = psychopy0(imageLists1)
+    imageData2 = psychopy0(imageLists2)
 
 
     # 画像，経過時間の表示　また，画像提示時刻をcsvファイルに記録する
